@@ -18,5 +18,7 @@ Depends: python-wxgtk3.0,
          ${python:Depends},
 Provides: ${python:Provides}
 Description: Python descriptor framework
+ Event programming framework with the ability for automatic CLI generation,
+ and automatic GUI generation (with wxPython).
  .
  This package provides the Python 2 module.
