@@ -16,7 +16,7 @@ export PYBUILD_NAME = props
 
 # one ring to rule them all ...
 %:
-	dh $@ --with python2,python3 --buildsystem=pybuild
+	dh $@ --with python2 --buildsystem=pybuild
 
 clean::
 	dh_clean
