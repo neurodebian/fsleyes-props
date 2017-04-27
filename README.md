@@ -1,34 +1,30 @@
 Props
 =====
 
-The props package uses 
-[python descriptors](http://nbviewer.ipython.org/gist/ChrisBeaumont/5758381/descriptor_writeup.ipynb)
-to implement an event programming framework. It also includes the ability for 
-automatic CLI generation and, optionally, automatic GUI generation (if 
-[wxPython](http://www.wxpython.org) is present).
+The `props` package is an event programming framework, which includes the
+ability for automatic CLI generation and, optionally, automatic GUI generation
+(if [wxPython](http://www.wxpython.org) is present).
+
+
+Dependencies
+------------
+
+
+All of the dependencies of `props` are listed in the
+[requirements.txt](requirements.txt) file. `props` can be used without
+wxPython, but GUI functionality will not be available.
 
 
 Documentation
 -------------
 
+`props` is documented using [sphinx](http://http://sphinx-doc.org/). You can
+build the API documentation by installing `sphinx` and `sphinx-rtd-theme`, and
+running:
 
-Developer documentation is available at
-http://users.fmrib.ox.ac.uk/~paulmc/props/index.html. Dependencies are listed
-in [requirements.txt](requirements.txt).
+    python setup.py doc
 
-
-``props`` is documented using [sphinx](http://http://sphinx-doc.org/). The
-documentation can be built by running the following command from the
-``props/doc`` directory:
-
-
-```sh
-rm -r html; PYTHONPATH=.. sphinx-build . html
-```
-
-
-The generated documentation can then be viewed by opening
-``doc/html/index.html`` in a web browser.
+The HTML documentation will be generated and saved in the `doc/html/` directory.
 
 
 Example usage

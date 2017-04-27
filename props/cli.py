@@ -200,7 +200,14 @@ from . import properties_types as ptypes
 log = logging.getLogger(__name__)
 
 
-def _String(parser, propObj, propCls, propName, propHelp, shortArg, longArg):
+def _String(parser,
+            propObj,
+            propCls,
+            propName,
+            propHelp,
+            shortArg,
+            longArg,
+            atype=str):
     """Adds an argument to the given parser for the given :class:`.String`
     property.
     
@@ -218,8 +225,11 @@ def _String(parser, propObj, propCls, propName, propHelp, shortArg, longArg):
     
     :param longArg:  String to use as the long argument.
 
+    :param atype:    Data type to expect (defaults to ``str``). This allows
+                     the conversion type to be overridden for some, but not
+                     all, property types.
     """
-    parser.add_argument(shortArg, longArg, help=propHelp) 
+    parser.add_argument(shortArg, longArg, help=propHelp, type=atype) 
 
 
 def _Choice(parser,
@@ -355,7 +365,14 @@ def _Percentage(
                         type=float)    
 
 
-def _Bounds(parser, propObj, propCls, propName, propHelp, shortArg, longArg):
+def _Bounds(parser,
+            propObj,
+            propCls,
+            propName,
+            propHelp,
+            shortArg,
+            longArg,
+            atype=None):
     """Adds an argument to the given parser for the given :class:`.Bounds`
     property. See the :func:`_String` documentation for details on the
     parameters.
@@ -365,14 +382,15 @@ def _Bounds(parser, propObj, propCls, propName, propHelp, shortArg, longArg):
 
     metavar = tuple(['LO', 'HI'] * ndims)
 
-    if real: bType = float
-    else:    bType = int
+    if atype is None: 
+        if real: atype = float
+        else:    atype = int
 
     parser.add_argument(shortArg,
                         longArg,
                         help=propHelp,
                         metavar=metavar,
-                        type=bType,
+                        type=atype,
                         nargs=2 * ndims)
 
 
@@ -547,7 +565,8 @@ def applyArguments(hasProps,
                    arguments,
                    propNames=None,
                    xformFuncs=None,
-                   longArgs=None):
+                   longArgs=None,
+                   **kwargs):
     """Apply arguments to a ``HasProperties`` instance.
 
     Given a ``HasProperties`` instance and an ``argparse.Namespace`` instance,
@@ -569,6 +588,9 @@ def applyArguments(hasProps,
                        property.
 
     :param longArgs:   Dict containing ``{property name : longArg}`` mappings.
+
+    All other keyword arguments are passed through to the ``xformFuncs``
+    functions.
     """
 
     if propNames is None:
@@ -586,7 +608,7 @@ def applyArguments(hasProps,
 
     for propName, propObj in zip(propNames, propObjs):
 
-        xform   = xformFuncs.get(propName, lambda v : v)
+        xform   = xformFuncs.get(propName, lambda v, **kwa : v)
         argName = longArgs.get(propName, propName)
         argVal  = getattr(arguments, argName, None)
 
@@ -594,7 +616,7 @@ def applyArguments(hasProps,
         # was passed in for this property
         if argVal is None: continue
 
-        argVal = xform(argVal)
+        argVal = xform(argVal, **kwargs)
 
         log.debug('Setting {}.{} = {}'.format(
             type(hasProps).__name__,
