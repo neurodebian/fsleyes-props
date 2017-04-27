@@ -1,7 +1,7 @@
 Source: props
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Michael Hanke <mih@debian.org>
-Section: non-free/python
+Section: python
 Priority: optional
 Build-Depends: debhelper (>= 9),
                dh-python,
@@ -12,7 +12,7 @@ X-Python-Version: >= 2.7
 
 Package: python-props
 Architecture: all
-Section: non-free/python
+Section: python
 Depends: python-wxgtk3.0,
          ${misc:Depends},
          ${python:Depends},
