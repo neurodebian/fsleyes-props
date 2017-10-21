@@ -1,15 +1,14 @@
 
-``props``
-=========
+``fsleyes-props``
+=================
 
 .. toctree::
    :hidden:   
               
-   props
-   pwidgets
+   fsleyes_props
 
    
-The ``props`` package uses `python descriptors
+The ``fsleyes-props`` package uses `python descriptors
 <http://nbviewer.ipython.org/gist/ChrisBeaumont/5758381/descriptor_writeup.ipynb>`_
 to implement an event programming framework. It also includes the ability for
 automatic CLI generation and, optionally, automatic GUI generation (if
@@ -17,7 +16,7 @@ automatic CLI generation and, optionally, automatic GUI generation (if
 
 The more important parts of this documentation are as follows:
 
- - The :mod:`props` package, for a quick overview.
+ - The :mod:`fsleyes_props` package, for a quick overview.
 
  - The :mod:`.properties_types` module for details of available property types.
 
@@ -32,7 +31,4 @@ The more important parts of this documentation are as follows:
    instances.
 
  - The :mod:`.properties` and :mod:`.properties_value` modules for details on
-   how ``props`` works.
-
- - The :mod:`pwidgets` package for some custom ``wx`` widgets used in the
-   ``props`` package.
+   how ``fsleyes-props`` works.

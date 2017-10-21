@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #
-# setup.py - setuptools configuration for installing the props package.
+# setup.py - setuptools configuration for installing the fsleyes-props
+# package.
 #
 # Author: Paul McCarthy <pauldmccarthy@gmail.com>
 #
@@ -8,11 +9,8 @@
 
 from __future__ import print_function
 
-import               os
-import os.path    as op
-import subprocess as sp
-import               shutil
-import               pkgutil
+import os.path as op
+import            shutil
 
 from setuptools import setup
 from setuptools import find_packages
@@ -25,26 +23,26 @@ basedir = op.dirname(__file__)
 install_requires = open(op.join(basedir, 'requirements.txt'), 'rt').readlines()
 
 packages = find_packages(
-    exclude=('doc', 'tests', 'dist', 'build', 'props.egg-info'))
+    exclude=('doc', 'tests', 'dist', 'build', 'fsleyes_props.egg-info'))
 
-# Extract the vesrion number from props/__init__.py
+# Extract the vesrion number from fsleyes_props/__init__.py
 version = {}
-with open(op.join(basedir, "props", "__init__.py"), 'rt') as f:
+with open(op.join(basedir, "fsleyes_props", "__init__.py"), 'rt') as f:
     for line in f:
         if line.startswith('__version__'):
             exec(line, version)
             break
 version = version.get('__version__')
 
-with open(op.join(basedir, 'README.md'), 'rt') as f:
+with open(op.join(basedir, 'README.rst'), 'rt') as f:
     readme = f.read()
 
 
 class doc(Command):
     """Build the API documentation. """
-    
+
     user_options = []
-    
+
     def initialize_options(self):
         pass
 
@@ -59,31 +57,51 @@ class doc(Command):
         if op.exists(destdir):
             shutil.rmtree(destdir)
 
-        env   = dict(os.environ)
-        ppath = [op.join(pkgutil.get_loader('props').filename, '..')]
-        
-        env['PYTHONPATH'] = op.pathsep.join(ppath)
-
         print('Building documentation [{}]'.format(destdir))
 
-        sp.call(['sphinx-build', docdir, destdir], env=env) 
+        import sphinx
+
+        try:
+            import unittest.mock as mock
+        except:
+            import mock
+
+        mockedModules = [
+            'fsl',
+            'fsl.utils',
+            'fsl.utils.async',
+            'fsl.utils.weakfuncref',
+            'fsleyes_widgets',
+            'fsleyes_widgets.bitmapradio',
+            'fsleyes_widgets.bitmaptoggle',
+            'fsleyes_widgets.colourbutton',
+            'fsleyes_widgets.elistbox',
+            'fsleyes_widgets.floatslider',
+            'fsleyes_widgets.floatspin',
+            'fsleyes_widgets.notebook',
+            'fsleyes_widgets.rangeslider',
+            'numpy',
+            'numpy.linalg',
+            'wx',
+            'wx.adv',
+        ]
+
+        mockobj       = mock.MagicMock()
+        mockedModules = { m : mockobj for m in mockedModules}
+
+        with mock.patch.dict('sys.modules', **mockedModules):
+            sphinx.main(['sphinx-build', docdir, destdir])
 
 
 setup(
 
-    name='props',
-
+    name='fsleyes-props',
     version=version,
-
-    description='Python event programming framework, using wxPython',
+    description='[wx]Python event programming framework',
     long_description=readme,
-
-    url='https://git.fmrib.ox.ac.uk/paulmc/props',
-
+    url='https://git.fmrib.ox.ac.uk/fsl/fsleyes/props',
     author='Paul McCarthy',
-
     author_email='pauldmccarthy@gmail.com',
-
     license='Apache License Version 2.0',
 
     classifiers=[
@@ -95,10 +113,17 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules'],
 
     packages=packages,
+    install_requires=install_requires,
+    setup_requires=['pytest-runner', 'sphinx', 'sphinx-rtd-theme', 'mock'],
+    tests_require=['pytest',
+                   'mock',
+                   'coverage',
+                   'pytest-cov',
+                   'pytest-html',
+                   'pytest-runner'],
+    test_suite='tests',
 
     cmdclass={
         'doc' : doc
-    },
-
-    install_requires=install_requires
+    }
 )
