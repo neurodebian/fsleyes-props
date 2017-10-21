@@ -1,3 +1,9 @@
+fsleyes-props (1.2.1-1) neurodebian; urgency=medium
+
+  * New upstream release (missed many before)
+
+ -- Michael Hanke <mih@debian.org>  Sat, 21 Oct 2017 11:35:46 +0200
+
 props (0.10.1-1) neurodebian; urgency=low
 
   * Initial release.

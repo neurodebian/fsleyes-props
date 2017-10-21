@@ -12,7 +12,7 @@ gitver = $(shell [ -x /usr/bin/git ] && git describe --tags --match '[0-9].*' $$
 
 
 export DH_VERBOSE = 1
-export PYBUILD_NAME = props
+export PYBUILD_NAME = fsleyes-props
 
 # one ring to rule them all ...
 %:
@@ -22,7 +22,10 @@ clean::
 	dh_clean
 	# Ahhhhhhh!
 	rm -rf .pybuild build
-	-rm -rf props.egg-info/
+	-rm -rf fsleyes_props.egg-info/
+	-rm -rf .eggs/
+	-rm -rf tests/__pycache__
+	-find . -name '*.pyc' -delete
 
 # make orig tarball from repository content
 get-orig-source:

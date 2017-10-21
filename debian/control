@@ -1,4 +1,4 @@
-Source: props
+Source: fsleyes-props
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Michael Hanke <mih@debian.org>
 Section: python
@@ -7,16 +7,22 @@ Build-Depends: debhelper (>= 9),
                dh-python,
                python-all,
                python-setuptools,
+               python-deprecation,
+               python-six (>= 1.0~),
 Standards-Version: 3.9.8
 X-Python-Version: >= 2.7
 
-Package: python-props
+Package: python-fsleyes-props
 Architecture: all
 Section: python
+Replaces: python-props
+Conflicts: python-props (< 1.0~)
 Depends: python-wxgtk3.0,
+         python-six (>= 1.0~),
          ${misc:Depends},
          ${python:Depends},
-Provides: ${python:Provides}
+Provides: python-props,
+          ${python:Provides}
 Description: Python descriptor framework
  Event programming framework with the ability for automatic CLI generation,
  and automatic GUI generation (with wxPython).
