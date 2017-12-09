@@ -18,6 +18,9 @@ export PYBUILD_NAME = fsleyes-props
 %:
 	dh $@ --with python2 --buildsystem=pybuild
 
+override_dh_auto_test:
+	# no tests for now
+
 clean::
 	dh_clean
 	# Ahhhhhhh!
