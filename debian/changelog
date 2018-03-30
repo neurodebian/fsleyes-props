@@ -1,9 +1,12 @@
-fsleyes-props (1.2.1-2) UNRELEASED; urgency=medium
+fsleyes-props (1.2.1-2) neurodebian; urgency=medium
 
   * debian/copyright
     - pointed to upstream location
   * debian/control
     - provided Vcs- fields
+  * debian/patches
+    - a few CPed commits to relax dependency on deprecations and restrict
+      on fslpy
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Fri, 30 Mar 2018 09:00:44 -0400
 
