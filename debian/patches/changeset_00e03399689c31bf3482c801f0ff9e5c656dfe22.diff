@@ -5,7 +5,7 @@ Subject: Update requirements
 +++ b/requirements.txt
 @@ -4,4 +4,4 @@ matplotlib>=1.5,<3
  wxPython>=3.0.2.0,<4.1
- deprecation==1.*
+ deprecation>=1.*,<=2.*
  fsleyes-widgets==0.*
 -fslpy==1.*
 +fslpy>=1.4,<2
